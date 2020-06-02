@@ -1,0 +1,23 @@
+---
+title: "Diversify Digest"
+author: admin
+date: Sys.date
+output: md_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, results = 'asis')
+library(tidyverse)
+
+today <- Sys.Date()
+
+raw_data <- read_csv(paste0("../data/raw", today, ".csv"))
+
+cite_df <- raw_data %>% mutate(full_cite = paste0("#1. [", title, "](", url, ") ", author))
+
+cite_list <- cite_df %>% pull(full_cite) %>% paste(., collapse = "\n")
+
+```
+
+`r cite_list`
+

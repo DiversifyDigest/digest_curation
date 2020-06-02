@@ -1,7 +1,3 @@
-library(tidyverse)
-library(gmailr)
-library(jsonlite)
-library(rvest)
 
 gm_auth_configure(path = "permissions/client_secret.json")
 
@@ -52,7 +48,7 @@ get_scholar_links <- function(x){
   return(merge_df)
 }
 
-all_google_links <- map_dfr(message_ids, get_scholar_links) 
+all_google_links <- map_dfr(message_gs_ids, get_scholar_links) 
 
 has_doi <- c("/10\\.|sciencedirect|nature.com|arXiv|psycnet.apa|jamanetwork.com|psyarxiv.com|journals.plos.org|europepmc  .org|pnas.org|mdpi.com|jacr.org|neurology.org|edarxiv.org|hindawi.com")
 
@@ -72,13 +68,25 @@ num_hw_messages <- length(unlist_hw_message) - 1 #calculate the number of messag
 message_hw_ids <- numeric(num_hw_messages) #create vector for message ids
 
 #loop through the list of messages to get the ids
-for(x in 1:num_hw_messages){
+if (length(message_hw_ids) >= 2) {
   
-  message_num <- paste0("unlist_hw_message$messages", x, "$id")
+  print("for")
   
-  id <- eval(parse(text = message_num))
+  for(x in 1:num_hw_messages){
+    
+    message_hw_num <- paste0("unlist_hw_message$messages", x, "$id")
+    
+    id <- eval(parse(text = message_hw_num))
+    
+    message_hw_ids[x] <- id
+  }
   
-  message_hw_ids[x] <- id
+} else {
+  
+  print("1")
+  
+  message_hw_ids <- unlist_hw_message$messages$id
+  
 }
 
 get_hw_alerts <- function(x){
@@ -117,3 +125,11 @@ all_links <- rbind(clean_google_links, all_hw_links) %>%
   mutate(title = str_to_title(title)) %>% 
   filter(str_detect(title, relevant) == TRUE) %>% 
   filter(str_detect(title, exclude) == FALSE)
+
+today <- Sys.Date()
+
+write_csv(all_links, paste0("data/raw", today, ".csv"))
+
+print("csv saved")
+
+#map(gm_delete_message, message_gs_ids)
