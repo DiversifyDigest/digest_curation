@@ -7,17 +7,110 @@ output: md_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, results = 'asis')
+
 library(tidyverse)
 
 today <- Sys.Date()
 
 raw_data <- read_csv(paste0("../data/raw", today, ".csv"))
 
-cite_df <- raw_data %>% mutate(full_cite = paste0("#1. [", title, "](", url, ") ", author))
+LGBT_terms <- c("Lgbt|Trans|Queer|Sexual Minorit|Gender Minorit|Gender Ident")
 
-cite_list <- cite_df %>% pull(full_cite) %>% paste(., collapse = "\n")
+race_terms <- c("Urm|Race|Ethnicity|Ethnic|Black|Asian|Native|Indigenous|Hurm|Immigrant|Racial|Latin|Hispanic")
+
+disabil_terms <- c("Disability|Ability|Deaf|Blind|Wheelchair")
+
+women_terms <- c("Gender|Women|Female")
+
+edu_terms <- c("Education|Higher Ed|Academia|High School|Elementary|Middle School|School")
+
+health_terms <- c("Healthcare|Health")
+
+acad_terms <- c("Academy|Academia|Grad|Postdoc|Faculty")
+
+cite_df <- raw_data %>% mutate(full_cite = paste0("#1. [", title, "](", url, ") ", author),
+                               race = str_detect(title, race_terms),
+                               LGBT = str_detect(title, LGBT_terms),
+                               disabil = str_detect(title, disabil_terms),
+                               women = str_detect(title, women_terms),
+                               edu = str_detect(title, edu_terms),
+                               health = str_detect(title, health_terms),
+                               academy = str_detect(title, acad_terms))
+
+LGBT_list <- cite_df %>% filter(LGBT == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
 
 ```
 
-`r cite_list`
+# ## Sexual and Gender Minorities (e.g, LGBTQA+)
 
+`r LGBT_list`
+
+# ## Race/Ethnicity
+```{r race_setup, include=FALSE}
+
+race_list <- cite_df %>% filter(race == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+```
+
+`r race_list`
+
+# ## Disabilities
+```{r disabil_setup, include=FALSE}
+
+disabil_list <- cite_df %>% filter(disabil == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+```
+
+`r disabil_list`
+
+{{% toc %}}
+
+# ## Women
+```{r women_setup, include=FALSE}
+
+women_list <- cite_df %>% filter(women == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+```
+
+`r women_list`
+
+{{% toc %}}
+
+# ## Education
+```{r edu_setup, include=FALSE}
+
+edu_list <- cite_df %>% filter(edu == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+```
+
+`r edu_list`
+
+{{% toc %}}
+
+# ## Healthcare
+```{r health_setup, include=FALSE}
+
+health_list <- cite_df %>% filter(health == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+```
+
+`r health_list`
+
+{{% toc %}}
+
+
+# ## Academia
+```{r acad_setup, include=FALSE}
+
+acad_list <- cite_df %>% filter(academy == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+```
+
+`r acad_list`
+
+{{% toc %}}
+
+# ## Systems, Constructs, and Misc
+```{r misc_setup, include=FALSE}
+
+misc_list <- cite_df %>% filter(health == FALSE & edu == FALSE & women == FALSE & acad == FALSE
+                                & disabil == FALSE & race == FALSE & LGBT == FALSE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+```
+
+`r misc_list`
+
+{{% toc %}}
