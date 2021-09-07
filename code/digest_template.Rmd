@@ -1,7 +1,7 @@
 ---
 title: "Diversify Digest"
 author: admin
-date: Sys.date
+date: Sys.Date
 output: md_document
 ---
 
@@ -9,41 +9,43 @@ output: md_document
 knitr::opts_chunk$set(echo = FALSE, results = 'asis')
 
 library(tidyverse)
+library(lubridate)
 
-today <- Sys.Date()
+#today <- Sys.Date()
 
 raw_data <- read_csv(paste0("../data/raw", today, ".csv"))
 
 #Category terms----
-LGBT_terms <- c("Lgbt|Trans|Queer|Sexual Minorit|Gender Minorit|Gender Ident")
+LGBT_terms <- c("Lgbt|Trans|Queer|Sexual Minorit|Gender Minorit|Gender Ident|Sexual Orientation")
 
-race_terms <- c("Urm|Race|Ethnicity|Ethnic|Black|Asian|Native|Indigenous|Hurm|Immigrant|Racial|Latin|Hispanic|Minority")
+race_terms <- c("Urm|Race|Ethnicity|Ethnic|Black|Asian|Native|Indigenous|Hurm|Immigrant|Racial|Latin|Hispanic|Minority|Racism")
 
-disabil_terms <- c("Disability|Ability|Deaf|Blind|Wheelchair|Autis")
+disabil_terms <- c("Disabil|Ability|Deaf|Blind|Wheelchair|Autis|Neurodiverse|Accessibility|Mental Illness")
 
 women_terms <- c("Gender|Women|Female")
 
-edu_terms <- c("Education|Higher Ed|Academia|High School|Elementary|Middle School|School")
+edu_terms <- c("Education|Academics|High School|Elementary|Middle School|School|College Grad|Classroom|Learning|Pedagog|Teach")
 
-health_terms <- c("Healthcare|Health")
+health_terms <- c("Healthcare|Health|Care|Physician|Illness|Disease")
 
-acad_terms <- c("Grad|Postdoc|Faculty|Academ|Journal|Publish|Public|Cite|Citation")
+acad_terms <- c("Grad|Postdoc|Faculty|Academia|Research|Academy|Journal|Publish|Public|Cite|Citation|Author|Academic|Peer Review|Higher Ed")
 
 #Categorize titles & generate string----
-cite_df <- raw_data %>% mutate(full_cite = paste0("#1. [", title, "](", url, ") ", author, "\n"),
+cite_df <- raw_data %>% mutate(full_cite = paste0("[", title, "](", url, ") ", author, "\n"),
                                race = str_detect(title, race_terms),
                                LGBT = str_detect(title, LGBT_terms),
                                disabil = str_detect(title, disabil_terms),
                                women = str_detect(title, women_terms),
                                edu = str_detect(title, edu_terms),
                                health = str_detect(title, health_terms),
-                               academy = str_detect(title, acad_terms))
+                               academy = str_detect(title, acad_terms),
+                               dei = if_else(str_detect(title, "Diversity") & str_detect(title, "Inclusion"), TRUE, FALSE))
 
 #Identify top 10 keywords----
 `%not_in%` <- Negate(`%in%`)
 
 preposition <- c("and", "of", "the", "a", "as", "in", "with", "can", "be", "to", "for", "without", 
-                 "does", "new", "is", "also", "we", "he", "or", "on", "these", "onward", "at", "by", "from")
+                 "does", "new", "is", "also", "we", "he", "or", "on", "these", "onward", "at", "by", "from", "an ")
 
 titles <- raw_data %>% 
   mutate(title = str_replace_all(title, "[:punct:]", ""),
@@ -60,8 +62,16 @@ keywords <- words_freq %>%
   group_by(value) %>% 
   summarise(n = n()) %>% arrange(desc(n)) %>% head(n = 10) %>% pull(value)
 ```
+\-\-\- 
 
-# Keywords: `r keywords`
+title: `r paste0(month(today, label = TRUE), " ", day(today), " Digest")`
+
+date: `r today`
+
+authors: []
+
+\-\-\- 
+
 
 ### Sexual and Gender Minorities (e.g, LGBTQA+) ##
 ```{r lgbt_setup, include=FALSE}
@@ -129,11 +139,21 @@ acad_list <- cite_df %>% filter(academy == TRUE) %>% pull(full_cite) %>% paste(.
 
 {{% toc %}}
 
+### Thoughts on Diversity, Equity, &/or Inclusion ##
+```{r dei_setup, include=FALSE}
+
+dei_list <- cite_df %>% filter(dei == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+```
+
+`r dei_list`
+
+{{% toc %}}
+
 ### Systems, Constructs, and Misc ##
 ```{r misc_setup, include=FALSE}
 
 misc_list <- cite_df %>% filter(health == FALSE & edu == FALSE & women == FALSE & academy == FALSE
-                                & disabil == FALSE & race == FALSE & LGBT == FALSE) %>% 
+                                & disabil == FALSE & race == FALSE & LGBT == FALSE & dei == FALSE) %>% 
   pull(full_cite) %>% paste(., collapse = "\n")
 ```
 
