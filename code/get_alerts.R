@@ -113,9 +113,7 @@ all_hw_links <- map_dfr(message_hw_ids, get_hw_alerts)
 
 #attempt to sort relevant ----
 
-relevant <- c("Gender|Academic|Instructor|Discrimin|Inclusion|Equity|Authorship|Graduate|Stem field|Harassment|Women|Female|Decoloniz|Hate|Provider Bias|Implicit Bias|Antiracism|Ability|Disability|Anti-racism|Manuscript|Publish|Neurodiverse")
-
-exclude <- c("Breast|Infection|Diet|Menopaus|Childbirth|natal|Abortion|Hiv|Contracept|Supplement|Vaccin|Birth Outcome|Pcos|Pregnan|Infertile|Menstrual|Symptom|Spine|Neck|Cardio|Cervial|Cancer|Fetal|Ultrasound|Sonograph|Congenital|Apnea|Cells")
+exclude <- c("Breast|Infection|Diet|Menopaus|Childbirth|natal|Abortion|Hiv|Contracept|Supplement|Vaccin|Birth Outcome|Pcos|Pregnan|Infertile|Menstrual|Symptom|Spine|Neck|Cardio|Cervial|Cancer|Fetal|Ultrasound|Sonograph|Congenital|Apnea|Cells|Stem Cell|Leukemia|Ovar|Neutron|Neuron")
 
 all_links <- rbind(clean_google_links, all_hw_links) %>%
   mutate(title = str_to_title(title)) %>%

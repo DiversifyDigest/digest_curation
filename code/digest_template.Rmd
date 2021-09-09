@@ -16,9 +16,9 @@ library(lubridate)
 raw_data <- read_csv(paste0("../data/raw", today, ".csv"))
 
 #Category terms----
-LGBT_terms <- c("Lgbt|Trans|Queer|Sexual Minorit|Gender Minorit|Gender Ident|Sexual Orientation")
+LGBT_terms <- c("Lgbt|Trans |Transgender|Queer|Sexual Minorit|Gender Minorit|Gender Ident|Sexual Orientation")
 
-race_terms <- c("Urm|Race|Ethnicity|Ethnic|Black|Asian|Native|Indigenous|Hurm|Immigrant|Racial|Latin|Hispanic|Minority|Racism")
+race_terms <- c("Urm|Race|Ethnicity|Ethnic|Black|Asian|Native|Indige|Hurm|Immigrant|Racial|Latin|Hispanic|Minority|Racism")
 
 disabil_terms <- c("Disabil|Ability|Deaf|Blind|Wheelchair|Autis|Neurodiverse|Accessibility|Mental Illness")
 
@@ -26,9 +26,17 @@ women_terms <- c("Gender|Women|Female")
 
 edu_terms <- c("Education|Academics|High School|Elementary|Middle School|School|College Grad|Classroom|Learning|Pedagog|Teach")
 
-health_terms <- c("Healthcare|Health|Care|Physician|Illness|Disease")
+health_terms <- c("Healthcare|Health|Care|Physician|Illness|Disease|Pain|Medic|Provid")
 
-acad_terms <- c("Grad|Postdoc|Faculty|Academia|Research|Academy|Journal|Publish|Public|Cite|Citation|Author|Academic|Peer Review|Higher Ed")
+acad_terms <- c("Grad|Postdoc|Faculty|Academia|Research|Academy|Journal|Publish|Public|Cite|Citation|Author|Academic|Review|Higher Ed|Peer Review")
+
+ment_terms <- c("Mentor|Network")
+
+crt_terms <- c("Critical Race|Crt|Race Theory")
+
+syst_terms <- c("System|Construct|Frame")
+
+bias_terms <- c("Bias|Implicit|Stereotype")
 
 #Categorize titles & generate string----
 cite_df <- raw_data %>% mutate(full_cite = paste0("[", title, "](", url, ") ", author, "\n"),
@@ -39,6 +47,10 @@ cite_df <- raw_data %>% mutate(full_cite = paste0("[", title, "](", url, ") ", a
                                edu = str_detect(title, edu_terms),
                                health = str_detect(title, health_terms),
                                academy = str_detect(title, acad_terms),
+                               mentor = str_detect(title, ment_terms),
+                               crt = str_detect(title, crt_terms),
+                               systems = str_detect(title, syst_terms),
+                               bias = str_detect(title, bias_terms),
                                dei = if_else(str_detect(title, "Diversity") & str_detect(title, "Inclusion"), TRUE, FALSE))
 
 #Identify top 10 keywords----
@@ -68,7 +80,7 @@ title: `r paste0(month(today, label = TRUE), " ", day(today), " Digest")`
 
 date: `r today`
 
-authors: []
+authors: 
 
 \-\-\- 
 
@@ -88,6 +100,8 @@ race_list <- cite_df %>% filter(race == TRUE) %>% pull(full_cite) %>% paste(., c
 ```
 
 `r race_list`
+
+{{% toc %}}
 
 ### Disabilities ##
 ```{r disabil_setup, include=FALSE}
@@ -139,6 +153,46 @@ acad_list <- cite_df %>% filter(academy == TRUE) %>% pull(full_cite) %>% paste(.
 
 {{% toc %}}
 
+### Mentoring ##
+```{r ment_setup, include=FALSE}
+
+ment_list <- cite_df %>% filter(mentor == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+```
+
+`r ment_list`
+
+{{% toc %}}
+
+### Implicit Bias & Stereotypes ##
+```{r bias_setup, include=FALSE}
+
+bias_list <- cite_df %>% filter(bias == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+```
+
+`r bias_list`
+
+{{% toc %}}
+
+### Critical Race Theory ##
+```{r crt_setup, include=FALSE}
+
+crt_list <- cite_df %>% filter(crt == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+```
+
+`r crt_list`
+
+{{% toc %}}
+
+### Systems, Constructs, and Frameworks ##
+```{r systems_setup, include=FALSE}
+
+syst_list <- cite_df %>% filter(systems == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+```
+
+`r syst_list`
+
+{{% toc %}}
+
 ### Thoughts on Diversity, Equity, &/or Inclusion ##
 ```{r dei_setup, include=FALSE}
 
@@ -149,11 +203,12 @@ dei_list <- cite_df %>% filter(dei == TRUE) %>% pull(full_cite) %>% paste(., col
 
 {{% toc %}}
 
-### Systems, Constructs, and Misc ##
+### Misc ##
 ```{r misc_setup, include=FALSE}
 
 misc_list <- cite_df %>% filter(health == FALSE & edu == FALSE & women == FALSE & academy == FALSE
-                                & disabil == FALSE & race == FALSE & LGBT == FALSE & dei == FALSE) %>% 
+                                & disabil == FALSE & race == FALSE & LGBT == FALSE & dei == FALSE &
+                                crt == FALSE & systems == FALSE & mentor == FALSE) %>% 
   pull(full_cite) %>% paste(., collapse = "\n")
 ```
 
