@@ -6,7 +6,7 @@ on:
 
 jobs:
   digest_link_post:
-    runs-on: debian-latest
+    runs-on: ubuntu-latest
     env:
       access_secret: ${{ secrets.ACCESS_SECRET }}
       access_tok: ${{ secrets.ACCESS_TOK }}
