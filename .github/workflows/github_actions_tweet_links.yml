@@ -1,0 +1,22 @@
+name: tweet_article_links
+
+on: 
+  schedule:
+    - cron: '0 0 0,10,14 ? * MON,TUE,WED,THU,FRI,SAT *'
+
+jobs:
+  digest_link_post:
+    runs-on: debian-latest
+    env:
+      access_secret: ${{ secrets.ACCESS_SECRET }}
+      access_tok: ${{ secrets.ACCESS_TOK }}
+      api_key: ${{ secrets.API_KEY }}
+      api_secret: ${{ secrets.API_SECRET }}
+      bearer: ${{ secrets.BEARER }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@master
+      - name: Install required packages
+        run: Rscript -e 'install.packages(c("rtweet", "tidyverse", "httpuv"), dependencies = TRUE)'
+      - name: Create and post tweet
+        run: Rscript code/tweet_article_links.R
