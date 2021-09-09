@@ -2,7 +2,7 @@ name: tweet_article_links
 
 on: 
   schedule:
-    - cron: '0 0 0,10,14 ? * MON,TUE,WED,THU,FRI,SAT *'
+    - cron: '0 0 10,14 * * 1-6'
 
 jobs:
   digest_link_post:
