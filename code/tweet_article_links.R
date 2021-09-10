@@ -1,6 +1,6 @@
-library(tidyverse)
+#library(tidyverse)
 library(rtweet)
-library(httpuv)
+#library(httpuv)
 
 twitter_links <- read_csv("data/recent_twitter_links.csv")
 
