@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   digest_link_post:
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
     env:
       access_secret: ${{ secrets.ACCESS_SECRET }}
       access_tok: ${{ secrets.ACCESS_TOK }}
