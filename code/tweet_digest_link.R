@@ -1,6 +1,6 @@
-library(tidyverse)
+#library(tidyverse)
 library(rtweet)
-library(httpuv)
+#library(httpuv)
 
 today <- Sys.Date()
 
