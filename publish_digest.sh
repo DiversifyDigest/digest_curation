@@ -3,6 +3,8 @@
 #Generate the folder for the new post on the website
 #######################################################
 
+date=$(date +"%F")
+
 cd ~/DiversifyDigest_wowchemy_repo #move to the website repo
 
 hugo new --kind publication digest/digest_$date #create folder for the new digest
