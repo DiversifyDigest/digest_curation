@@ -1,5 +1,7 @@
 install.packages("rtweet")
-#library(tidyverse)
+install.packages("tidyverse")
+
+library(tidyverse)
 library(rtweet)
 #library(httpuv)
 
