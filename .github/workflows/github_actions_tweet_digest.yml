@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   digest_link_post:
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
     env:
       access_secret: ${{ secrets.ACCESS_SECRET }}
       access_tok: ${{ secrets.ACCESS_TOK }}
@@ -13,8 +13,18 @@ jobs:
       bearer: ${{ secrets.BEARER }}
     steps:
       - uses: actions/checkout@v2
+      
       - uses: r-lib/actions/setup-r@master
+      
       - name: Install rtweet package
-        run: Rscript -e 'install.packages(c("rtweet", "tidyverse", "httpuv"), dependencies = TRUE)'
+        run: Rscript -e 'install.packages("rtweet", dependencies = TRUE)'
+        
+      #- name: Cache R packages
+      #  uses: actions/cache@v1
+      #  with:
+      #    path: ${{ env.R_LIBS_USER }}
+      #    key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+      #    restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+        
       - name: Create and post tweet
         run: Rscript code/tweet_digest_link.R

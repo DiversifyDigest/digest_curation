@@ -1,6 +1,8 @@
-library(tidyverse)
+install.packages("rtweet")
+
+#library(tidyverse)
 library(rtweet)
-library(httpuv)
+#library(httpuv)
 
 today <- Sys.Date()
 
