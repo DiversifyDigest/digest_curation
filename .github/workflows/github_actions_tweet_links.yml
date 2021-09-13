@@ -19,7 +19,7 @@ jobs:
       - uses: r-lib/actions/setup-r@master
       
       - name: Install required packages
-        run: Rscript -e 'install.packages("rtweet", dependencies = TRUE)'
+        run: Rscript -e 'install.packages(c("rtweet", "tidyverse"), dependencies = TRUE)'
       
       #- name: Cache R packages
       #  uses: actions/cache@v1
