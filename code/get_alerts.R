@@ -29,7 +29,7 @@ get_scholar_links <- function(x){
 
   x_html <- read_html(x_body)
 
-  titles <- x_html %>% xml_find_all('//a[@class="gse_alrt_title"]') %>% html_text() %>%
+  title <- x_html %>% xml_find_all('//a[@class="gse_alrt_title"]') %>% html_text() %>%
     enframe(name = NULL) %>% rename(title = "value")
 
   author <- x_html %>% xml_find_all('//div[@style="color:#006621"]') %>% html_text(trim = TRUE) %>%
@@ -41,7 +41,7 @@ get_scholar_links <- function(x){
   #clean_link <- mutate(link, url = str_replace(url, "http://scholar\\.google\\.com/scholar_url\\?url=", "") %>%
                          #str_extract("[:graph:]+(?=&hl=)"))
 
-  merge_df <- cbind(titles, author, link) #%>% filter(str_detect(url, has_doi) == TRUE)
+  merge_df <- cbind(title, author, link) #%>% filter(str_detect(url, has_doi) == TRUE)
 
   return(merge_df)
 }
@@ -52,64 +52,70 @@ all_google_links <- map_dfr(message_gs_ids, get_scholar_links)
 
 has_doi <- c("/10\\.|sciencedirect|nature.com|arXiv|psycnet.apa|jamanetwork.com|psyarxiv.com|journals.plos.org|europepmc  .org|pnas.org|mdpi.com|jacr.org|neurology.org|edarxiv.org|hindawi.com")
 
-clean_google_links <- mutate(all_google_links,
+if(nrow(all_google_links) != 0){
+  clean_google_links <- mutate(all_google_links,
                              url = str_replace(url, "http://scholar\\.google\\.com/scholar_url\\?url=", "") %>%
                                str_extract("[:graph:]+(?=&hl=)")) %>% distinct() %>%
   filter(str_detect(url, has_doi) == TRUE)
+}else{
+  title <- "empty"
+  author <- "empty"
+  url <- "empty"
+  
+  clean_google_links  <- tibble(title, author, url)
+  }
 
-#---- Highwire alerts
+#----- Highwire alerts----
 
-hw_message_list <- gm_messages("from:alerts.highwire", num_results = 500)
+hw_message_list <- gm_messages("from:alerts.highwire.org label:Digest_RSS", num_results = 500)
 
-unlist_hw_message <- hw_message_list %>% unlist(., FALSE) %>% unlist(., FALSE)
+unlist_hw_message <- hw_message_list %>% unlist(., FALSE) %>% unlist(., FALSE) %>% as_tibble(.)
 
 num_hw_messages <- unlist_hw_message$resultSizeEstimate #get the number of messages obtained
 
-message_hw_ids <- numeric(num_hw_messages) #create vector for message ids
+#message_hw_ids <- numeric(num_hw_messages) #create vector for message ids
 
 #loop through the list of messages to get the ids
-if (length(message_hw_ids) >= 2) {
-
-  message_hw_ids <- unlist_gs_message %>% 
+message_hw_ids <- unlist_hw_message %>% 
     as_tibble(.name_repair = "universal", rownames = "NA") %>% 
     gather("message", "id") %>% mutate(id = unlist(id)) %>% 
     filter(str_detect(message, "message") == TRUE) %>% 
-    distinct() %>% pull(id)
-
-} else {
-
-  print("no hw results")
-
-  message_hw_ids <- unlist_hw_message$messages$id
-
-}
+    distinct(id) %>% pull(id)
 
 #function to get manuscript data from the highwire alerts
 get_hw_alerts <- function(x){
 
   print(x)
 
-  x <- gm_message(message_hw_ids[1], format = "full")
+  x <- gm_message(x, format = "full")
 
   x_body <- gm_body(x, format = FULL, type = "text/html") %>% unlist()
 
   x_html <- read_html(x_body)
 
-  titles <- x_html %>% xml_find_all('//div[@class="citation_title"]') %>% html_text() %>%
+  title <- x_html %>% xml_find_all('//div[@class="citation_title"]') %>% html_text() %>%
     enframe(name = NULL) %>% rename(title = "value")
 
   author <- x_html %>% xml_find_all('//div[@id="authorlist"]') %>% html_text(trim = TRUE) %>%
     enframe(name = NULL) %>%   rename(author = "value")
 
-  link <- x_html %>% xml_find_all('//div[@id]/div/a') %>% html_attr("href") %>%
+  url <- x_html %>% xml_find_all('//div[@id]/div/a') %>% html_attr("href") %>%
     enframe(name = NULL) %>% rename(url = "value") %>% filter(str_detect(url, "abstract"))
 
-  merge_df <- cbind(titles, author, link)
+  merge_df <- cbind(title, author, url)
 
   return(merge_df)
 }
 
 all_hw_links <- map_dfr(message_hw_ids, get_hw_alerts)
+
+if(nrow(all_hw_links) == 0){
+  title <- "empty"
+  author <- "empty"
+  url <- "empty"
+  
+  all_hw_links  <- tibble(title, author, url)
+}
 
 #attempt to sort relevant ----
 
@@ -125,3 +131,5 @@ write_csv(all_links, paste0("data/raw", today, ".csv"))
 print("csv saved")
 
 map(message_gs_ids, gm_delete_message)
+
+map(message_hw_ids, gm_delete_message)

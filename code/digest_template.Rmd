@@ -84,6 +84,7 @@ authors:
 
 \-\-\- 
 
+{{% toc %}}
 
 ### Sexual and Gender Minorities (e.g, LGBTQA+) ##
 ```{r lgbt_setup, include=FALSE}
