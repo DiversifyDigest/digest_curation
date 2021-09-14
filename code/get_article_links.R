@@ -19,4 +19,4 @@ articles <- recent_digest[sample(nrow(recent_digest), 10), ]
 
 #tweet_list <- articles %>% select(for_twitter)
 
-write_csv(articles, "data/recent_twitter_links.csv") #save recent links to a file
+write_csv(articles, "recent_twitter_links.csv") #save recent links to a file
