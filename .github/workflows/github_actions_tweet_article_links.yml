@@ -1,4 +1,4 @@
-name: tweet_links
+name: tweet_article_links
 
 on: 
   schedule:
