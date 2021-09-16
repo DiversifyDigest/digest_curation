@@ -5,7 +5,7 @@ library(tidyverse)
 library(rtweet)
 #library(httpuv)
 
-twitter_links <- read_csv("data/recent_twitter_links.csv")
+twitter_links <- read_csv("recent_twitter_links.csv")
 
 link_num <- nrow(twitter_links)
 
@@ -31,4 +31,4 @@ post_tweet(
 
 new_twitter_links <- twitter_links %>% slice(-text_num)
 
-write_csv(new_twitter_links, "data/recent_twitter_links.csv") #save recent links to a file
+write_csv(new_twitter_links, "recent_twitter_links.csv") #save recent links to a file
