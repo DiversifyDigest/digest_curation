@@ -20,7 +20,7 @@ LGBT_terms <- c("Lgbt|Trans |Transgender|Queer|Sexual Minorit|Gender Minorit|Gen
 
 race_terms <- c("Urm|Race|Ethnicity|Ethnic|Black|Asian|Native|Indige|Hurm|Immigrant|Racial|Latin|Hispanic|Minority|Racism")
 
-disabil_terms <- c("Disabil|Ability|Deaf|Blind|Wheelchair|Autis|Neurodiverse|Accessibility|Mental Illness")
+disabil_terms <- c("Disabil|Ability|Deaf|Blind|Wheelchair|Autis|Neurodiverse|Accessibility|Mental Illness|Ablism")
 
 women_terms <- c("Gender|Women|Female")
 
@@ -209,7 +209,7 @@ dei_list <- cite_df %>% filter(dei == TRUE) %>% pull(full_cite) %>% paste(., col
 
 misc_list <- cite_df %>% filter(health == FALSE & edu == FALSE & women == FALSE & academy == FALSE
                                 & disabil == FALSE & race == FALSE & LGBT == FALSE & dei == FALSE &
-                                crt == FALSE & systems == FALSE & mentor == FALSE) %>% 
+                                crt == FALSE & systems == FALSE & mentor == FALSE & bias == FALSE) %>% 
   pull(full_cite) %>% paste(., collapse = "\n")
 ```
 

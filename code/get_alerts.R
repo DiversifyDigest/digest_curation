@@ -119,7 +119,7 @@ if(nrow(all_hw_links) == 0){
 
 #attempt to sort relevant ----
 
-exclude <- c("Breast|Infection|Diet|Menopaus|Childbirth|natal|Abortion|Hiv|Contracept|Supplement|Vaccin|Birth Outcome|Pcos|Pregnan|Infertile|Menstrual|Symptom|Spine|Neck|Cardio|Cervial|Cancer|Fetal|Ultrasound|Sonograph|Congenital|Apnea|Cells|Stem Cell|Leukemia|Ovar|Neutron|Neuron")
+exclude <- c("Breast|Infection|Diet|Menopaus|Childbirth|natal|Abortion|Hiv|Contracept|Supplement|Vaccin|Birth Outcome|Pcos|Pregnan|Infertile|Menstrual|Symptom|Spine|Neck|Cardio|Cervial|Cancer|Fetal|Ultrasound|Sonograph|Congenital|Apnea|Cells|Stem Cell|Leukemia|Ovar|Neutron|Neuron|Postpartum")
 
 all_links <- rbind(clean_google_links, all_hw_links) %>%
   mutate(title = str_to_title(title)) %>%
