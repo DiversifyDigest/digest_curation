@@ -8,6 +8,7 @@ recent_digest <- read_file(paste0("output/digest_", today, ".md")) %>%
   str_split(., "\\[") %>% unlist() %>% str_replace_all(., "##.*", "") %>% 
   as_tibble() %>% separate(value, into = c("title", "urlplus"), sep = "\\]") %>% 
   separate(urlplus, into = c("url", "extra"), sep = "\\)") %>% 
+  distinct() %>% 
   mutate(url = map2(.x = url, .y = "\\(https://scholar.google.com/scholar_url\\?url=", .f = str_remove_all),
          url = unlist(url),
          title = map(title, function(x){str_replace_all(x, "\\\n", " ")}),

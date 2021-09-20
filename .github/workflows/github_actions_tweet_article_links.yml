@@ -2,10 +2,10 @@ name: tweet_article_links
 
 on: 
   schedule:
-    - cron: '0 10,14 * * 1-6'
+    - cron: '0 12,16 * * 1-6'
 
 jobs:
-  digest_link_post:
+  article_link_post:
     runs-on: macOS-latest
     env:
       access_secret: ${{ secrets.ACCESS_SECRET }}
