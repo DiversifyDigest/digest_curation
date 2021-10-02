@@ -26,3 +26,5 @@ jobs:
       
       - name: Create and post tweet
         run: Rscript code/tweet_article_links.R
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
