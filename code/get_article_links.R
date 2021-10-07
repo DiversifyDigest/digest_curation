@@ -6,6 +6,7 @@ today <- Sys.Date()
 
 recent_digest <- read_file(paste0("output/digest_", today, ".md")) %>% 
   str_split(., "\\[") %>% unlist() %>% str_replace_all(., "##.*", "") %>% 
+  str_remove_all(., "\\{\\{% toc %\\}\\}") %>% 
   as_tibble() %>% separate(value, into = c("title", "urlplus"), sep = "\\]") %>% 
   separate(urlplus, into = c("url", "extra"), sep = "\\)") %>% 
   distinct() %>% 
@@ -14,6 +15,7 @@ recent_digest <- read_file(paste0("output/digest_", today, ".md")) %>%
          title = map(title, function(x){str_replace_all(x, "\\\n", " ")}),
          title = unlist(title),
          for_twitter = paste(title, " ", url))%>% 
+  distinct() %>% 
   slice(-1, -2)
 
 articles <- recent_digest[sample(nrow(recent_digest), 10), ]
