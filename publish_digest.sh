@@ -41,6 +41,8 @@ echo "digest_$date published"
 
 cd ~/digest_curation
 
+git pull #prevent merge conflicts in csv of tweet links
+
 Rscript code/get_article_links.R #run the code to randomly select links to tweet for the next week
 
 git add .
