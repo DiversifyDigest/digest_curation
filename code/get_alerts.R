@@ -54,7 +54,7 @@ has_doi <- c("/10\\.|sciencedirect|nature.com|arXiv|psycnet.apa|jamanetwork.com|
 
 if(nrow(all_google_links) != 0){
   clean_google_links <- mutate(all_google_links,
-                             url = str_replace(url, "http://scholar\\.google\\.com/scholar_url\\?url=", "") %>%
+                             url = str_replace(url, "https://scholar\\.google\\.com/scholar_url\\?url=", "") %>%
                                str_extract("[:graph:]+(?=&hl=)")) %>% distinct() %>%
   filter(str_detect(url, has_doi) == TRUE)
 }else{
@@ -119,7 +119,7 @@ if(nrow(all_hw_links) == 0){
 
 #attempt to sort relevant ----
 
-exclude <- c("Breast|Infection|Diet|Menopaus|Childbirth|natal|Abortion|Hiv|Contracept|Supplement|Vaccin|Birth Outcome|Pcos|Pregnan|Infertile|Menstrual|Symptom|Spine|Neck|Cardio|Cervial|Cancer|Fetal|Ultrasound|Sonograph|Congenital|Apnea|Cells|Stem Cell|Leukemia|Ovar|Neutron|Neuron|Postpartum")
+exclude <- c("Nano|Nanite|Breast|Infection|Diet|Menopaus|Childbirth|natal|Abortion|Hiv|Contracept|Supplement|Vaccin|Birth Outcome|Pcos|Pregnan|Infertile|Menstrual|Symptom|Spine|Neck|Cardio|Cervial|Cancer|Fetal|Ultrasound|Sonograph|Congenital|Apnea|Cells|Stem Cell|Leukemia|Ovar|Neutron|Neuron|Postpartum")
 
 all_links <- rbind(clean_google_links, all_hw_links) %>%
   mutate(title = str_to_title(title)) %>%

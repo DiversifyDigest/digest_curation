@@ -20,19 +20,19 @@ LGBT_terms <- c("Lgbt|Trans |Transgender|Queer|Sexual Minorit|Gender Minorit|Gen
 
 race_terms <- c("Urm|Race|Ethnicity|Ethnic|Black|Asian|Native|Indige|Hurm|Immigrant|Racial|Latin|Hispanic|Minority|Racism")
 
-disabil_terms <- c("Disabil|Ability|Deaf|Blind|Wheelchair|Autis|Neurodiverse|Accessibility|Mental Illness|Ablism")
+disabil_terms <- c("Disabil|Ability|Deaf|Blind|Wheelchair|Autis|Neurodiverse|Accessibility|Mental Illness|Ablism|Impaired")
 
 women_terms <- c("Gender|Women|Female")
 
 edu_terms <- c("Education|Academics|High School|Elementary|Middle School|School|College Grad|Classroom|Learning|Pedagog|Teach")
 
-health_terms <- c("Healthcare|Health|Care|Physician|Illness|Disease|Pain|Medic|Provid")
+health_terms <- c("Healthcare|Health|Care|Physician|Illness|Disease|Pain|Medic|Provid|Nurse")
 
 acad_terms <- c("Grad|Postdoc|Faculty|Academia|Research|Academy|Journal|Publish|Public|Cite|Citation|Author|Academic|Review|Higher Ed|Peer Review")
 
 ment_terms <- c("Mentor|Network")
 
-crt_terms <- c("Critical Race|Crt|Race Theory")
+crt_terms <- c("Critical Race|Crt|Race Theory|Anti")
 
 syst_terms <- c("System|Construct|Frame")
 
@@ -86,7 +86,7 @@ authors:
 
 {{% toc %}}
 
-### Sexual and Gender Minorities (e.g, LGBTQA+) ##
+### Sexual & Gender Minorities (e.g, LGBTQA+) ##
 ```{r lgbt_setup, include=FALSE}
 
 LGBT_list <- cite_df %>% filter(LGBT == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
@@ -174,7 +174,7 @@ bias_list <- cite_df %>% filter(bias == TRUE) %>% pull(full_cite) %>% paste(., c
 
 {{% toc %}}
 
-### Critical Race Theory ##
+### Anti-Racism & Critical Race Theory ##
 ```{r crt_setup, include=FALSE}
 
 crt_list <- cite_df %>% filter(crt == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
@@ -184,7 +184,7 @@ crt_list <- cite_df %>% filter(crt == TRUE) %>% pull(full_cite) %>% paste(., col
 
 {{% toc %}}
 
-### Systems, Constructs, and Frameworks ##
+### Systems, Constructs, & Frameworks ##
 ```{r systems_setup, include=FALSE}
 
 syst_list <- cite_df %>% filter(systems == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
