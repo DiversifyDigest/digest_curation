@@ -20,59 +20,39 @@ LGBT_terms <- c("Lgbt|Trans |Transgender|Queer|Sexual Minorit|Gender Minorit|Gen
 
 race_terms <- c("Urm|Race|Ethnicity|Ethnic|Black|Asian|Native|Indige|Hurm|Immigrant|Racial|Latin|Hispanic|Minority|Racism")
 
-disabil_terms <- c("Disabil|Ability|Deaf|Blind|Wheelchair|Autis|Neurodiverse|Accessibility|Mental Illness|Ablism|Impaired")
+disabil_terms <- c("Disabil|Ability|Deaf|Blind|Wheelchair|Autis|Neuro|Accessibility|Mental Illness|Ablism|Impaired|Adhd")
 
 women_terms <- c("Gender|Women|Female")
 
-edu_terms <- c("Education|Academics|High School|Elementary|Middle School|School|College Grad|Classroom|Learning|Pedagog|Teach")
+edu_terms <- c("Education|Academic|High School|Elementary|Middle School|School|College Grad|Classroom|Learning|Pedagog|Teach|Instruct|Curric")
 
-health_terms <- c("Healthcare|Health|Care|Physician|Illness|Disease|Pain|Medic|Provid|Nurse")
+health_terms <- c("Healthcare|Health|Care|Physician|Illness|Disease|Pain|Medic|Provid|Nurse|Doctor|Resident")
 
-acad_terms <- c("Grad|Postdoc|Faculty|Academia|Research|Academy|Journal|Publish|Public|Cite|Citation|Author|Academic|Review|Higher Ed|Peer Review")
+acad_terms <- c("Grad|Postdoc|Faculty|Academia|Research|Academy|Journal|Publish|Public|Cite|Citation|Author|Academic|Review|Higher Ed|Peer Review|Lit")
 
 ment_terms <- c("Mentor|Network")
 
 crt_terms <- c("Critical Race|Crt|Race Theory|Anti")
 
-syst_terms <- c("System|Construct|Frame")
+syst_terms <- c("System|Construct|Frame|Research")
 
-bias_terms <- c("Bias|Implicit|Stereotype")
+bias_terms <- c("Bias|Implicit|Stereotype|Training|Workshop")
 
 #Categorize titles & generate string----
 cite_df <- raw_data %>% mutate(full_cite = paste0("[", title, "](", url, ") ", author, "\n"),
-                               race = str_detect(title, race_terms),
-                               LGBT = str_detect(title, LGBT_terms),
-                               disabil = str_detect(title, disabil_terms),
-                               women = str_detect(title, women_terms),
-                               edu = str_detect(title, edu_terms),
-                               health = str_detect(title, health_terms),
-                               academy = str_detect(title, acad_terms),
-                               mentor = str_detect(title, ment_terms),
-                               crt = str_detect(title, crt_terms),
-                               systems = str_detect(title, syst_terms),
-                               bias = str_detect(title, bias_terms),
-                               dei = if_else(str_detect(title, "Diversity") & str_detect(title, "Inclusion"), TRUE, FALSE))
+                               race = str_detect(keywords, race_terms),
+                               LGBT = str_detect(keywords, LGBT_terms),
+                               disabil = str_detect(keywords, disabil_terms),
+                               women = str_detect(keywords, women_terms),
+                               edu = str_detect(keywords, edu_terms),
+                               health = str_detect(keywords, health_terms),
+                               academy = str_detect(keywords, acad_terms),
+                               mentor = str_detect(keywords, ment_terms),
+                               crt = str_detect(keywords, crt_terms),
+                               systems = str_detect(keywords, syst_terms),
+                               bias = str_detect(keywords, bias_terms),
+                               dei = if_else(str_detect(keywords, "Diversity") & str_detect(keywords, "Inclusion"), TRUE, FALSE))
 
-#Identify top 10 keywords----
-`%not_in%` <- Negate(`%in%`)
-
-preposition <- c("and", "of", "the", "a", "as", "in", "with", "can", "be", "to", "for", "without", 
-                 "does", "new", "is", "also", "we", "he", "or", "on", "these", "onward", "at", "by", "from", "an ")
-
-titles <- raw_data %>% 
-  mutate(title = str_replace_all(title, "[:punct:]", ""),
-         title = str_replace_all(title, "[:digit:]", ""),
-         title = str_to_lower(title)) %>% 
-  pull(title) 
-  
-words <- str_split(titles, " ") 
-
-words_freq <- words %>% unlist() %>% as_tibble()
-
-keywords <- words_freq %>% 
-  filter(value %not_in% preposition) %>% 
-  group_by(value) %>% 
-  summarise(n = n()) %>% arrange(desc(n)) %>% head(n = 10) %>% pull(value)
 ```
 \-\-\- 
 
@@ -97,7 +77,7 @@ LGBT_list <- cite_df %>% filter(LGBT == TRUE) %>% pull(full_cite) %>% paste(., c
 ### Race/Ethnicity ##
 ```{r race_setup, include=FALSE}
 
-race_list <- cite_df %>% filter(race == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+race_list <- cite_df %>% filter(race == TRUE & crt == FALSE) %>% pull(full_cite) %>% paste(., collapse = "\n")
 ```
 
 `r race_list`
@@ -117,24 +97,24 @@ disabil_list <- cite_df %>% filter(disabil == TRUE) %>% pull(full_cite) %>% past
 ### Women ##
 ```{r women_setup, include=FALSE}
 
-women_list <- cite_df %>% filter(women == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+women_list <- cite_df %>% filter(women == TRUE & health == FALSE) %>% pull(full_cite) %>% paste(., collapse = "\n")
 ```
 
 `r women_list`
 
 {{% toc %}}
 
-### Education ##
+### Education & Curriculum ##
 ```{r edu_setup, include=FALSE}
 
-edu_list <- cite_df %>% filter(edu == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+edu_list <- cite_df %>% filter(edu == TRUE & academy == FALSE) %>% pull(full_cite) %>% paste(., collapse = "\n")
 ```
 
 `r edu_list`
 
 {{% toc %}}
 
-### Healthcare ##
+### Healthcare & Medical School ##
 ```{r health_setup, include=FALSE}
 
 health_list <- cite_df %>% filter(health == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
@@ -164,7 +144,7 @@ ment_list <- cite_df %>% filter(mentor == TRUE) %>% pull(full_cite) %>% paste(.,
 
 {{% toc %}}
 
-### Implicit Bias & Stereotypes ##
+### Implicit Bias & Stereotypes: Research, Training & Workshops ##
 ```{r bias_setup, include=FALSE}
 
 bias_list <- cite_df %>% filter(bias == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
@@ -184,7 +164,7 @@ crt_list <- cite_df %>% filter(crt == TRUE) %>% pull(full_cite) %>% paste(., col
 
 {{% toc %}}
 
-### Systems, Constructs, & Frameworks ##
+### Research Tools: Systems, Constructs, & Frameworks ##
 ```{r systems_setup, include=FALSE}
 
 syst_list <- cite_df %>% filter(systems == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")

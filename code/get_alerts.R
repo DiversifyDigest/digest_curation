@@ -118,13 +118,18 @@ if(nrow(all_hw_links) == 0){
 }
 
 #attempt to sort relevant ----
+exclude_keywords <- c("Systematic Review|Systematic Meta[:graph:]*|Research Funding")
 
-exclude <- c("Nano|Nanite|Breast|Infection|Diet|Menopaus|Childbirth|natal|Abortion|Hiv|Contracept|Supplement|Vaccin|Birth Outcome|Pcos|Pregnan|Infertile|Menstrual|Symptom|Spine|Neck|Cardio|Cervial|Cancer|Fetal|Ultrasound|Sonograph|Congenital|Apnea|Cells|Stem Cell|Leukemia|Ovar|Neutron|Neuron|Postpartum")
+exclude_titles <- c("Nano|Nanite|Cells|Stem Cell|Neutron|Neuron|Computational")
 
 all_links <- rbind(clean_google_links, all_hw_links) %>%
-  mutate(title = str_to_title(title)) %>%
+  mutate(title = str_to_title(title),
+         keywords = str_replace_all(title, "[:punct:]", ""),
+         keywords = str_replace_all(keywords, "[:digit:]", ""),
+         keywords = str_remove_all(keywords, exclude_keywords)
+  ) %>% 
   #filter(str_detect(title, relevant) == TRUE) %>%
-  filter(str_detect(title, exclude) == FALSE) #%>% head(n=100)
+  filter(str_detect(title, exclude_titles) == FALSE) #%>% head(n=100)
 
 write_csv(all_links, paste0("data/raw", today, ".csv"))
 
