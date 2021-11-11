@@ -118,9 +118,9 @@ if(nrow(all_hw_links) == 0){
 }
 
 #attempt to sort relevant ----
-exclude_keywords <- c("Systematic Review|Systematic Meta[:graph:]*|Research Funding")
+exclude_keywords <- c("Systematic Review|Systematic Meta[:graph:]*|Research Funding|Blind Spot|Machine Learning|Deep Learning")
 
-exclude_titles <- c("Nano|Nanite|Cells|Stem Cell|Neutron|Neuron|Computational")
+exclude_titles <- c("Nano|Nanite|Cells|Stem Cell|Neutron|Neuron|Computational|Imaging|Thermodynamic")
 
 all_links <- rbind(clean_google_links, all_hw_links) %>%
   mutate(title = str_to_title(title),

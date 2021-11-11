@@ -20,7 +20,7 @@ LGBT_terms <- c("Lgbt|Trans |Transgender|Queer|Sexual Minorit|Gender Minorit|Gen
 
 race_terms <- c("Urm|Race|Ethnicity|Ethnic|Black|Asian|Native|Indige|Hurm|Immigrant|Racial|Latin|Hispanic|Minority|Racism")
 
-disabil_terms <- c("Disabil|Ability|Deaf|Blind|Wheelchair|Autis|Neuro|Accessibility|Mental Illness|Ablism|Impaired|Adhd")
+disabil_terms <- c("Disabil|Ability|Deaf|Blind|Wheelchair|Autis|Neuro|Accessibility|Mental Illness|Ablism|Impaired|Adhd|Disable")
 
 women_terms <- c("Gender|Women|Female")
 
