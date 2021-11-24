@@ -118,7 +118,7 @@ if(nrow(all_hw_links) == 0){
 }
 
 #attempt to sort relevant ----
-exclude_keywords <- c("Systematic Review|Systematic Meta[:graph:]*|Research Funding|Blind Spot|Machine Learning|Deep Learning")
+exclude_keywords <- c("Systematic Review|Systematic Meta[:graph:]*|Research Funding|Blind Spot|Machine Learning|Deep Learning|Network Meta[:graph:]*")
 
 exclude_titles <- c("Nano|Nanite|Cells|Stem Cell|Neutron|Neuron|Computational|Imaging|Thermodynamic")
 

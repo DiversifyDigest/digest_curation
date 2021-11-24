@@ -24,11 +24,11 @@ disabil_terms <- c("Disabil|Ability|Deaf|Blind|Wheelchair|Autis|Neuro|Accessibil
 
 women_terms <- c("Gender|Women|Female")
 
-edu_terms <- c("Education|Academic|High School|Elementary|Middle School|School|College Grad|Classroom|Learning|Pedagog|Teach|Instruct|Curric")
+edu_terms <- c("Education|Academic|High School|Elementary|Middle School|School|College Grad|Classroom|Learning|Pedagog|Teach|Instruct|Curric|Affirmative Action|Campus")
 
-health_terms <- c("Healthcare|Health|Care|Physician|Illness|Disease|Pain|Medic|Provid|Nurse|Doctor|Resident")
+health_terms <- c("Healthcare|Health|Care|Physician|Illness|Disease|Pain|Medic|Provid|Nurse|Doctor|Resident|Patient|Treat")
 
-acad_terms <- c("Grad|Postdoc|Faculty|Academia|Research|Academy|Journal|Publish|Public|Cite|Citation|Author|Academic|Review|Higher Ed|Peer Review|Lit")
+acad_terms <- c("Grad|Postdoc|Faculty|Academia|Research|Academy|Journal|Publish|Public|Cite|Citation|Author|Academic|Review|Higher Ed|Peer Review|Lit|Editor")
 
 ment_terms <- c("Mentor|Network")
 
