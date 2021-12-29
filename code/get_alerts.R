@@ -41,8 +41,36 @@ get_scholar_links <- function(x){
   #clean_link <- mutate(link, url = str_replace(url, "http://scholar\\.google\\.com/scholar_url\\?url=", "") %>%
                          #str_extract("[:graph:]+(?=&hl=)"))
 
-  merge_df <- cbind(title, author, link) #%>% filter(str_detect(url, has_doi) == TRUE)
-
+  merge_df <- if(nrow(title) == nrow(author) &  nrow(title) == nrow(link) & nrow(author) == nrow(link)){
+    
+    cbind(title, author, link) 
+    
+    }else{
+      
+    attribute_df <- tibble(
+      title = nrow(title), 
+      author = nrow(author), 
+      link = nrow(link))
+    
+    col_list <- c("title", "author", "link")
+    
+    max_df <- max(attribute_df)
+    
+    min_df <- min(attribute_df)
+    
+    num_rows <- max_df - min_df
+    
+    short_col <- colnames(attribute_df)[which.min(apply(attribute_df,MARGIN=2,min))]
+    
+    col_list <- col_list[col_list != sym(short_col)]
+    
+    empty_col <- replicate(num_rows, rbind("-")) %>% as_tibble_col(., column_name = as.character(sym(short_col)))
+    
+    fix_short <- get(short_col) %>% rbind(empty_col)
+    
+    cbind(get(col_list[1]), get(col_list[2]), fix_short) 
+  }
+    
   return(merge_df)
 }
 
@@ -102,7 +130,35 @@ get_hw_alerts <- function(x){
   url <- x_html %>% xml_find_all('//div[@id]/div/a') %>% html_attr("href") %>%
     enframe(name = NULL) %>% rename(url = "value") %>% filter(str_detect(url, "abstract"))
 
-  merge_df <- cbind(title, author, url)
+  merge_df <- if(nrow(title) == nrow(author) &  nrow(title) == nrow(link) & nrow(author) == nrow(link)){
+    
+    cbind(title, author, link) 
+    
+  }else{
+    
+    attribute_df <- tibble(
+      title = nrow(title), 
+      author = nrow(author), 
+      link = nrow(link))
+    
+    col_list <- c("title", "author", "link")
+    
+    max_df <- max(attribute_df)
+    
+    min_df <- min(attribute_df)
+    
+    num_rows <- max_df - min_df
+    
+    short_col <- colnames(attribute_df)[which.min(apply(attribute_df,MARGIN=2,min))]
+    
+    col_list <- col_list[col_list != sym(short_col)]
+    
+    empty_col <- replicate(num_rows, rbind("-")) %>% as_tibble_col(., column_name = as.character(sym(short_col)))
+    
+    fix_short <- get(short_col) %>% rbind(empty_col)
+    
+    cbind(get(col_list[1]), get(col_list[2]), fix_short) 
+  }
 
   return(merge_df)
 }
