@@ -50,9 +50,9 @@ get_scholar_links <- function(x){
     attribute_df <- tibble(
       title = nrow(title), 
       author = nrow(author), 
-      link = nrow(link))
+      url = nrow(link))
     
-    col_list <- c("title", "author", "link")
+    col_list <- c("title", "author", "url")
     
     max_df <- max(attribute_df)
     
@@ -93,6 +93,8 @@ if(nrow(all_google_links) != 0){
   clean_google_links  <- tibble(title, author, url)
   }
 
+print("finish Google links")
+
 #----- Highwire alerts----
 
 hw_message_list <- gm_messages("from:alerts.highwire.org label:Digest_RSS", num_results = 500)
@@ -130,18 +132,18 @@ get_hw_alerts <- function(x){
   url <- x_html %>% xml_find_all('//div[@id]/div/a') %>% html_attr("href") %>%
     enframe(name = NULL) %>% rename(url = "value") %>% filter(str_detect(url, "abstract"))
 
-  merge_df <- if(nrow(title) == nrow(author) &  nrow(title) == nrow(link) & nrow(author) == nrow(link)){
+  merge_df <- if(nrow(title) == nrow(author) &  nrow(title) == nrow(url) & nrow(author) == nrow(url)){
     
-    cbind(title, author, link) 
+    cbind(title, author, url) 
     
   }else{
     
     attribute_df <- tibble(
       title = nrow(title), 
       author = nrow(author), 
-      link = nrow(link))
+      url = nrow(url))
     
-    col_list <- c("title", "author", "link")
+    col_list <- c("title", "author", "url")
     
     max_df <- max(attribute_df)
     
@@ -172,6 +174,8 @@ if(nrow(all_hw_links) == 0){
   
   all_hw_links  <- tibble(title, author, url)
 }
+
+print("finish hw_links")
 
 #attempt to sort relevant ----
 exclude_keywords <- c("Systematic Review|Systematic Meta[:graph:]*|Research Funding|Blind Spot|Machine Learning|Deep Learning|Network Meta[:graph:]*")

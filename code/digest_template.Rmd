@@ -11,12 +11,12 @@ knitr::opts_chunk$set(echo = FALSE, results = 'asis')
 library(tidyverse)
 library(lubridate)
 
-#today <- Sys.Date()
+today <- Sys.Date()
 
 raw_data <- read_csv(paste0("../data/raw", today, ".csv"))
 
 #Category terms----
-LGBT_terms <- c("Lgbt|Trans |Transgender|Queer|Sexual Minorit|Gender Minorit|Gender Ident|Sexual Orientation")
+LGBT_terms <- c("Lgbt|Trans |Transgender|Queer|Sexual Minorit|Gender Minorit|Gender Ident|Sexual Orientation|Lesbian|Gay")
 
 race_terms <- c("Urm|Race|Ethnicity|Ethnic|Black|Asian|Native|Indige|Hurm|Immigrant|Racial|Latin|Hispanic|Minority|Racism")
 
