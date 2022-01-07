@@ -35,22 +35,22 @@ get_scholar_links <- function(x){
   author <- x_html %>% xml_find_all('//div[@style="color:#006621"]') %>% html_text(trim = TRUE) %>%
     enframe(name = NULL) %>%   rename(author = "value")
 
-  link <- x_html %>% xml_find_all('//a[@class="gse_alrt_title"]') %>% html_attr("href") %>%
+  url <- x_html %>% xml_find_all('//a[@class="gse_alrt_title"]') %>% html_attr("href") %>%
     enframe(name = NULL) %>% rename(url = "value")
 
   #clean_link <- mutate(link, url = str_replace(url, "http://scholar\\.google\\.com/scholar_url\\?url=", "") %>%
                          #str_extract("[:graph:]+(?=&hl=)"))
 
-  merge_df <- if(nrow(title) == nrow(author) &  nrow(title) == nrow(link) & nrow(author) == nrow(link)){
+  merge_df <- if(nrow(title) == nrow(author) &  nrow(title) == nrow(url) & nrow(author) == nrow(url)){
     
-    cbind(title, author, link) 
+    cbind(title, author, url) 
     
     }else{
       
     attribute_df <- tibble(
       title = nrow(title), 
       author = nrow(author), 
-      url = nrow(link))
+      url = nrow(url))
     
     col_list <- c("title", "author", "url")
     
@@ -67,7 +67,7 @@ get_scholar_links <- function(x){
     empty_col <- replicate(num_rows, rbind("-")) %>% as_tibble_col(., column_name = as.character(sym(short_col)))
     
     fix_short <- get(short_col) %>% rbind(empty_col)
-    
+
     cbind(get(col_list[1]), get(col_list[2]), fix_short) 
   }
     
