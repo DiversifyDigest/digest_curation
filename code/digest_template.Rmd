@@ -18,7 +18,7 @@ raw_data <- read_csv(paste0("../data/raw", today, ".csv"))
 #Category terms----
 LGBT_terms <- c("Lgbt|Trans |Transgender|Queer|Sexual Minorit|Gender Minorit|Gender Ident|Sexual Orientation|Lesbian|Gay")
 
-race_terms <- c("Urm|Race|Ethnicity|Ethnic|Black|Asian|Native|Indige|Hurm|Immigrant|Racial|Latin|Hispanic|Minority|Racism")
+race_terms <- c("Urm|Race|Ethnicity|Ethnic|Black|Asian|Native|Indige|Hurm|Immigrant|Racial|Latin|Hispanic|Minority|Racism|African")
 
 disabil_terms <- c("Disabil|Ability|Deaf|Blind|Wheelchair|Autis|Neuro|Accessibility|Mental Illness|Ablism|Impaired|Adhd|Disable")
 
@@ -30,7 +30,7 @@ health_terms <- c("Healthcare|Health|Care|Physician|Illness|Disease|Pain|Medic|P
 
 acad_terms <- c("Grad|Postdoc|Faculty|Academia|Research|Academy|Journal|Publish|Public|Cite|Citation|Author|Academic|Review|Higher Ed|Peer Review|Lit|Editor")
 
-ment_terms <- c("Mentor|Network")
+ment_terms <- c("Mentor|Network|Mentee")
 
 crt_terms <- c("Critical Race|Crt|Race Theory|Anti")
 
