@@ -39,7 +39,9 @@ syst_terms <- c("System|Construct|Frame|Research")
 bias_terms <- c("Bias|Implicit|Stereotype|Training|Workshop")
 
 #Categorize titles & generate string----
-cite_df <- raw_data %>% mutate(full_cite = paste0("[", title, "](", url, ") ", author, "\n"),
+cite_df <- raw_data %>% 
+  distinct(., title, .keep_all = TRUE) %>% 
+  mutate(full_cite = paste0("[", title, "](", url, ") ", author, "\n"),
                                race = str_detect(keywords, race_terms),
                                LGBT = str_detect(keywords, LGBT_terms),
                                disabil = str_detect(keywords, disabil_terms),
