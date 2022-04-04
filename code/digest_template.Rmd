@@ -20,6 +20,8 @@ LGBT_terms <- c("Lgbt|Trans |Transgender|Queer|Sexual Minorit|Gender Minorit|Gen
 
 race_terms <- c("Urm|Race|Ethnicity|Ethnic|Black|Asian|Native|Indige|Hurm|Immigrant|Racial|Latin|Hispanic|Minority|Racism|African")
 
+black_terms <- c("Black|Hurm|Racism|African")
+
 disabil_terms <- c("Disabil|Abili|Deaf|Blind|Wheelchair|Autis|Neuro|Accessibility|Mental Illness|Ablism|Impaired|Adhd|Disable")
 
 women_terms <- c("Gender|Wom.n|Female")
@@ -38,6 +40,12 @@ syst_terms <- c("System|Construct|Frame|Research")
 
 bias_terms <- c("Bias|Implicit|Stereotype|Training|Workshop")
 
+law_terms <- c("Law|Enforce|Police|Jail|Incarc|Prison|Policy|Policing|Carc")
+
+environ_terms <- c("Pollution|Climate|Weather")
+
+dei_terms <- c("Diversity|Inclusion|Dei|Edi|Equity")
+
 #Categorize titles & generate string----
 cite_df <- raw_data %>% 
   distinct(., title, .keep_all = TRUE) %>% 
@@ -53,7 +61,10 @@ cite_df <- raw_data %>%
                                crt = str_detect(keywords, crt_terms),
                                systems = str_detect(keywords, syst_terms),
                                bias = str_detect(keywords, bias_terms),
-                               dei = if_else(str_detect(keywords, "Diversity") & str_detect(keywords, "Inclusion"), TRUE, FALSE))
+                               law = str_detect(keywords, law_terms),
+                               environ = str_detect(keywords, environ_terms),
+                               black = str_detect(keywords, black_terms),
+                               dei = str_detect(keywords, dei_terms))
 
 ```
 \-\-\- 
@@ -76,7 +87,15 @@ LGBT_list <- cite_df %>% filter(LGBT == TRUE) %>% pull(full_cite) %>% paste(., c
 
 `r LGBT_list`
 
-### Race/Ethnicity ##
+### Black/African American Experiences ##
+```{r black_setup, include=FALSE}
+
+black_list <- cite_df %>% filter(black == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+```
+
+`r race_list`
+
+### Race/Ethnicity (excepting Black) ##
 ```{r race_setup, include=FALSE}
 
 race_list <- cite_df %>% filter(race == TRUE & crt == FALSE) %>% pull(full_cite) %>% paste(., collapse = "\n")
@@ -84,7 +103,6 @@ race_list <- cite_df %>% filter(race == TRUE & crt == FALSE) %>% pull(full_cite)
 
 `r race_list`
 
-{{% toc %}}
 
 ### Disabilities ##
 ```{r disabil_setup, include=FALSE}
@@ -104,7 +122,6 @@ women_list <- cite_df %>% filter(women == TRUE & health == FALSE) %>% pull(full_
 
 `r women_list`
 
-{{% toc %}}
 
 ### Education & Curriculum ##
 ```{r edu_setup, include=FALSE}
@@ -124,7 +141,6 @@ health_list <- cite_df %>% filter(health == TRUE) %>% pull(full_cite) %>% paste(
 
 `r health_list`
 
-{{% toc %}}
 
 ### Academia & Publishing ##
 ```{r acad_setup, include=FALSE}
@@ -134,7 +150,6 @@ acad_list <- cite_df %>% filter(academy == TRUE) %>% pull(full_cite) %>% paste(.
 
 `r acad_list`
 
-{{% toc %}}
 
 ### Mentoring ##
 ```{r ment_setup, include=FALSE}
@@ -154,7 +169,6 @@ bias_list <- cite_df %>% filter(bias == TRUE) %>% pull(full_cite) %>% paste(., c
 
 `r bias_list`
 
-{{% toc %}}
 
 ### Anti-Racism & Critical Race Theory ##
 ```{r crt_setup, include=FALSE}
@@ -164,7 +178,6 @@ crt_list <- cite_df %>% filter(crt == TRUE) %>% pull(full_cite) %>% paste(., col
 
 `r crt_list`
 
-{{% toc %}}
 
 ### Research Tools: Systems, Constructs, & Frameworks ##
 ```{r systems_setup, include=FALSE}
@@ -176,6 +189,22 @@ syst_list <- cite_df %>% filter(systems == TRUE) %>% pull(full_cite) %>% paste(.
 
 {{% toc %}}
 
+### DEI in Society and Law ##
+```{r law_setup, include=FALSE}
+
+law_list <- cite_df %>% filter(law == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+```
+
+`r law_list`
+
+### Environmental/Climate Social Justice ##
+```{r environ_setup, include=FALSE}
+
+environ_list <- cite_df %>% filter(environ == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+```
+
+`r environ_list`
+
 ### Thoughts on Diversity, Equity, &/or Inclusion ##
 ```{r dei_setup, include=FALSE}
 
@@ -184,14 +213,13 @@ dei_list <- cite_df %>% filter(dei == TRUE) %>% pull(full_cite) %>% paste(., col
 
 `r dei_list`
 
-{{% toc %}}
 
 ### Misc ##
 ```{r misc_setup, include=FALSE}
 
 misc_list <- cite_df %>% filter(health == FALSE & edu == FALSE & women == FALSE & academy == FALSE
                                 & disabil == FALSE & race == FALSE & LGBT == FALSE & dei == FALSE &
-                                crt == FALSE & systems == FALSE & mentor == FALSE & bias == FALSE) %>% 
+                                crt == FALSE & systems == FALSE & mentor == FALSE & bias == FALSE & law == FALSE) %>% 
   pull(full_cite) %>% paste(., collapse = "\n")
 ```
 
