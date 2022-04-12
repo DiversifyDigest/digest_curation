@@ -180,7 +180,7 @@ print("finish hw_links")
 #attempt to sort relevant ----
 exclude_keywords <- c("Systematic Review|Systematic Meta[:graph:]*|Research Funding|Blind Spot|Machine Learning|Machine-Learning|Deep Learning|Network Meta[:graph:]*")
 
-exclude_titles <- c("Nano|Nanite|Cells|Stem Cell|Neutron|Neuron|Computational|Imaging|Thermodynamic|Black Hole")
+exclude_titles <- c("Nano|Nanite|Cells|Stem Cell|Neutron|Neuron|Computational|Imaging|Thermodynamic|Black Hole|Wormhole|Gravity")
 
 all_links <- rbind(clean_google_links, all_hw_links) %>%
   mutate(title = str_to_title(title),

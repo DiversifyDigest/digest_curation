@@ -18,19 +18,19 @@ raw_data <- read_csv(paste0("../data/raw", today, ".csv"))
 #Category terms----
 LGBT_terms <- c("Lgbt|Trans |Transgender|Queer|Sexual Minorit|Gender Minorit|Gender Ident|Sexual Orientation|Lesbian|Gay")
 
-race_terms <- c("Urm|Race|Ethnicity|Ethnic|Black|Asian|Native|Indige|Hurm|Immigrant|Racial|Latin|Hispanic|Minority|Racism|African")
+race_terms <- c("Urm|Race|Ethnicity|Ethnic|Asian|Native|Indige|Hurm|Immigrant|Racial|Latin|Hispanic|Minority|Racism")
 
 black_terms <- c("Black|Hurm|Racism|African")
 
-disabil_terms <- c("Disabil|Abili|Deaf|Blind|Wheelchair|Autis|Neuro|Accessibility|Mental Illness|Ablism|Impaired|Adhd|Disable")
+disabil_terms <- c("Disabil|Abili|Deaf|Blind|Wheelchair|Autis|Neuro|Accessibility|Mental Illness|Ablism|Impaired|Adhd|Disable|Assist|Handic|Universal Design")
 
 women_terms <- c("Gender|Wom.n|Female")
 
-edu_terms <- c("Education|Academic|High School|Elementary|Middle School|School|College| Undergrad|Classroom|Learning|Pedagog|Teach|Instruct|Curric|Affirmative Action|Campus")
+edu_terms <- c("Education|Academic|High School|Elementary|Middle School|School|College|Scholar| Undergrad|Classroom|Learning|Pedagog|Teach|Instruct|Curric|Affirmative Action|Campus")
 
-health_terms <- c("Healthcare|Health|Care|Physician|Illness|Disease|Pain|Medic|Provid|Nurse|Doctor|Resident|Patient|Treat|Surg|Perscri|Sex.Related|Therap")
+health_terms <- c("Healthcare|Health|Care|Physician|Illness|Disease|Pain|Medic|Provid|Nurs|Doctor|Resident|Patient|Treat|Surg|Perscri|Sex.Related|Therap|Clinic|Prosthe|ology")
 
-acad_terms <- c("Grad|Postdoc|Faculty|Academia|Research|Academy|Journal|Publish|Public|Cite|Citation|Author|Academic|Review|Higher Ed|Peer Review|Lit|Editor")
+acad_terms <- c("Grad|Postdoc|Faculty|Academia|Research|Academy|Journal|Publish|Public|Cite|Citation|Author|Academic|Review|Higher Ed|Peer Review|Lit|Editor|Scholar")
 
 ment_terms <- c("Mentor|Network|Mentee")
 
@@ -40,9 +40,9 @@ syst_terms <- c("System|Construct|Frame|Research")
 
 bias_terms <- c("Bias|Implicit|Stereotype|Training|Workshop")
 
-law_terms <- c("Law|Enforce|Police|Jail|Incarc|Prison|Policy|Policing|Carc")
+law_terms <- c("Law|Enforce|Jail|Incarc|Prison|Poli|Carc")
 
-environ_terms <- c("Pollution|Climate|Weather|Urban|Solar")
+environ_terms <- c("Pollution|Climate|Weather|Urban|Solar|Housing|Energy|Build")
 
 dei_terms <- c("Diversity|Inclusion|Dei|Edi|Equity")
 
@@ -208,7 +208,10 @@ environ_list <- cite_df %>% filter(environ == TRUE) %>% pull(full_cite) %>% past
 ### Thoughts on Diversity, Equity, &/or Inclusion ##
 ```{r dei_setup, include=FALSE}
 
-dei_list <- cite_df %>% filter(dei == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+dei_list <- cite_df %>% filter(dei == TRUE) %>% filter(health == FALSE & edu == FALSE & women == FALSE & academy == FALSE
+                                & disabil == FALSE & race == FALSE & LGBT == FALSE & law == FALSE &
+                                crt == FALSE & systems == FALSE & mentor == FALSE & bias == FALSE 
+                                & environ == FALSE & systems == FALSE) %>% pull(full_cite) %>% paste(., collapse = "\n")
 ```
 
 `r dei_list`
@@ -219,7 +222,8 @@ dei_list <- cite_df %>% filter(dei == TRUE) %>% pull(full_cite) %>% paste(., col
 
 misc_list <- cite_df %>% filter(health == FALSE & edu == FALSE & women == FALSE & academy == FALSE
                                 & disabil == FALSE & race == FALSE & LGBT == FALSE & dei == FALSE &
-                                crt == FALSE & systems == FALSE & mentor == FALSE & bias == FALSE & law == FALSE) %>% 
+                                crt == FALSE & systems == FALSE & mentor == FALSE & bias == FALSE & law == FALSE
+                                & environ == FALSE & systems == FALSE) %>% 
   pull(full_cite) %>% paste(., collapse = "\n")
 ```
 
