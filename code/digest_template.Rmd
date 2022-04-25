@@ -90,7 +90,7 @@ LGBT_list <- cite_df %>% filter(LGBT == TRUE) %>% pull(full_cite) %>% paste(., c
 ### Black/African American Experiences ##
 ```{r black_setup, include=FALSE}
 
-black_list <- cite_df %>% filter(black == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+black_list <- cite_df %>% filter(black == TRUE & race == FALSE) %>% pull(full_cite) %>% paste(., collapse = "\n")
 ```
 
 `r black_list`
@@ -98,7 +98,7 @@ black_list <- cite_df %>% filter(black == TRUE) %>% pull(full_cite) %>% paste(.,
 ### Race/Ethnicity (excepting Black) ##
 ```{r race_setup, include=FALSE}
 
-race_list <- cite_df %>% filter(race == TRUE & crt == FALSE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+race_list <- cite_df %>% filter(race == TRUE & crt == FALSE & black == FALSE) %>% pull(full_cite) %>% paste(., collapse = "\n")
 ```
 
 `r race_list`
@@ -114,7 +114,7 @@ disabil_list <- cite_df %>% filter(disabil == TRUE) %>% pull(full_cite) %>% past
 
 {{% toc %}}
 
-### Women ##
+### Women (unspecified race/ethnicity; mostly white)##
 ```{r women_setup, include=FALSE}
 
 women_list <- cite_df %>% filter(women == TRUE & health == FALSE) %>% pull(full_cite) %>% paste(., collapse = "\n")
