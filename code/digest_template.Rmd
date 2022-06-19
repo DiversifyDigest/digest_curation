@@ -16,7 +16,7 @@ today <- Sys.Date()
 raw_data <- read_csv(paste0("../data/raw", today, ".csv"))
 
 #Category terms----
-LGBT_terms <- c("Lgbt|Trans |Transgender|Queer|Sexual Minorit|Gender Minorit|Gender Ident|Sexual Orientation|Lesbian|Gay")
+LGBT_terms <- c("Lgbt|Trans |Transgender|Queer|Sexual Minorit|Gender Minorit|Gender Ident|Sexual Orientation|Lesbian|Gay|lgbt")
 
 race_terms <- c("Urm|Race|Ethnicity|Ethnic|Asian|Native|Indige|Hurm|Immigrant|Racial|Latin|Hispanic|Minority|Racism")
 
@@ -26,7 +26,7 @@ disabil_terms <- c("Disabil|Abili|Deaf|Blind|Wheelchair|Autis|Neuro|Accessibilit
 
 women_terms <- c("Gender|Wom.n|Female")
 
-edu_terms <- c("Education|Academic|High School|Elementary|Middle School|School|College|Scholar| Undergrad|Classroom|Learning|Pedagog|Teach|Instruct|Curric|Affirmative Action|Campus")
+edu_terms <- c("Education|Academic Ach|High School|Elementary|Middle School|School|College|Scholar| Undergrad|Classroom|Learning|Pedagog|Teach|Instruct|Curric|Affirmative Action|Campus")
 
 health_terms <- c("Healthcare|Health|Care|Physician|Illness|Disease|Pain|Medic|Provid|Nurs|Doctor|Resident|Patient|Treat|Surg|Perscri|Sex.Related|Therap|Clinic|Prosthe|ology")
 
@@ -38,13 +38,15 @@ crt_terms <- c("Critical Race|Crt|Race Theory|Anti")
 
 syst_terms <- c("System|Construct|Frame|Research")
 
-bias_terms <- c("Bias|Implicit|Stereotype|Training|Workshop")
+bias_terms <- c("Bias|Implicit|Stereotype|Training|Workshop|Impost")
 
 law_terms <- c("Law|Enforce|Jail|Incarc|Prison|Poli|Carc")
 
 environ_terms <- c("Pollution|Climate|Weather|Urban|Solar|Housing|Energy|Build")
 
-dei_terms <- c("Diversity|Inclusion|Dei|Edi|Equity")
+media_terms <- c("Liter|Media|News|Book|Vid|Theat")
+
+work_terms <- c("Employ|Corp|Entre|Career|Work|Workforce|Recruit|Hr|Human Res")
 
 #Categorize titles & generate string----
 cite_df <- raw_data %>% 
@@ -64,7 +66,8 @@ cite_df <- raw_data %>%
                                law = str_detect(keywords, law_terms),
                                environ = str_detect(keywords, environ_terms),
                                black = str_detect(keywords, black_terms),
-                               dei = str_detect(keywords, dei_terms))
+                               media = str_detect(keywords, media_terms),
+                               work = str_detect(keywords, work_terms))
 
 ```
 \-\-\- 
@@ -205,25 +208,27 @@ environ_list <- cite_df %>% filter(environ == TRUE) %>% pull(full_cite) %>% past
 
 `r environ_list`
 
-### Thoughts on Diversity, Equity, &/or Inclusion ##
-```{r dei_setup, include=FALSE}
+### News & Media
+```{r media_setup, include=FALSE}
 
-dei_list <- cite_df %>% filter(dei == TRUE) %>% filter(health == FALSE & edu == FALSE & women == FALSE & academy == FALSE
-                                & disabil == FALSE & race == FALSE & LGBT == FALSE & law == FALSE &
-                                crt == FALSE & systems == FALSE & mentor == FALSE & bias == FALSE 
-                                & environ == FALSE & systems == FALSE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+media_list <- cite_df %>% filter(media == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
 ```
 
-`r dei_list`
+`r environ_list`
 
+
+### Workforce & Careers
+```{r work_setup, include=FALSE}
+
+work_list <- cite_df %>% filter(work == TRUE) %>% pull(full_cite) %>% paste(., collapse = "\n")
+```
+
+`r environ_list`
 
 ### Misc ##
 ```{r misc_setup, include=FALSE}
 
-misc_list <- cite_df %>% filter(health == FALSE & edu == FALSE & women == FALSE & academy == FALSE
-                                & disabil == FALSE & race == FALSE & LGBT == FALSE & dei == FALSE &
-                                crt == FALSE & systems == FALSE & mentor == FALSE & bias == FALSE & law == FALSE
-                                & environ == FALSE & systems == FALSE) %>% 
+misc_list <- cite_df %>% filter(health == FALSE & edu == FALSE & women == FALSE & academy == FALSE & disabil == FALSE & race == FALSE & LGBT == FALSE & crt == FALSE & systems == FALSE & mentor == FALSE & bias == FALSE & law == FALSE  & environ == FALSE & systems == FALSE & work == FALSE & media == FALSE) %>% 
   pull(full_cite) %>% paste(., collapse = "\n")
 ```
 
